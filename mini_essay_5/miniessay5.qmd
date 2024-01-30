@@ -1,0 +1,15 @@
+---
+title: "Mini Essay 5"
+author: Yingzhi Zhang
+date: today
+date-format: long
+abstract: "blablablablabla"
+format: pdf
+header-includes: 
+- \usepackage{float}
+mainfont: Times New Roman
+sansfont: Times New Roman
+number-sections: true
+bibliography: references.bib
+toc: true
+---

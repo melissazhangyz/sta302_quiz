@@ -21,6 +21,7 @@ simulation_chart <-
   )
 
 head(simulation_chart)
+write_csv(simulation_chart, "quiz4/simulation_data.csv")
 
 ###Test of real height range
 max(real_heights) <= 200

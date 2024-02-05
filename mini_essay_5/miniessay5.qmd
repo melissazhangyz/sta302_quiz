@@ -13,3 +13,44 @@ number-sections: true
 bibliography: references.bib
 toc: true
 ---
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(httr)
+library(janitor)
+library(knitr)
+library(tidyverse)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+###Gathering raw data from web
+raw_data <-
+  read_html(
+    "https://en.wikipedia.org/wiki/List_of_prime_ministers_of_Canada"
+  )
+write_html(raw_data, "pms.html")
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+###Obtain the relative part of the website
+raw_data <- read_html("pms.html")
+parse_data_selector_gadget <-
+  raw_data |>
+  html_element(".wikitable") |>
+  html_table()
+
+head(parse_data_selector_gadget)
+```
+

@@ -24,18 +24,21 @@ library(knitr)
 library(tidyverse)
 ```
 
+
 ```{r}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
 
-###Gathering raw data from web
-raw_data <-
-  read_html(
-    "https://en.wikipedia.org/wiki/List_of_prime_ministers_of_Canada"
-  )
-write_html(raw_data, "pms.html")
+###Read clean data and make a table
+cleaned_data <- read_csv("../mini_essay_5/cleaned_data.csv")
+
+cleaned_data %>% 
+  kable(
+    col.names = c("Prime Minister", "Birth year", "Death year", "Age at death")
+    )
+
 ```
 
 ```{r}
@@ -44,13 +47,21 @@ write_html(raw_data, "pms.html")
 #| warning: false
 #| message: false
 
-###Obtain the relative part of the website
-raw_data <- read_html("pms.html")
-parse_data_selector_gadget <-
-  raw_data |>
-  html_element(".wikitable") |>
-  html_table()
-
-head(parse_data_selector_gadget)
+cleaned_data %>% 
+  mutate(
+    still_alive = if_else(is.na(died), "Yes", "No"),
+    died = if_else(is.na(died), as.integer(2023), died)
+  ) %>% 
+  mutate(name = as_factor(name)) %>% 
+  ggplot(
+    aes(x = born, xend = died, y = name, yend = name, color = still_alive)
+    ) +
+  geom_segment() +
+  labs(
+    x = "Year of birth", y = "Prime minister", color = "PM is currently alive"
+    ) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = "bottom")
 ```
 

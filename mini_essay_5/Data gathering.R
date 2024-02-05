@@ -59,7 +59,7 @@ initial_clean <-
     sep = "\\(", remove = TRUE, extra = "merge"
     ) %>% 
   mutate(date = str_extract(not_name, "[[:digit:]]{4}–[[:digit:]]{4}"),
-         born = str_extract(not_name, "born[[:space:]][[:digit:]]{4}")
+         born = str_extract(not_name, "b.[[:space:]][[:digit:]]{4}")
   ) %>% 
   select(name, date, born)
 
@@ -70,7 +70,7 @@ cleaned_data <-
   separate(date, into = c("birth", "died"), 
            sep = "–") %>%  
   mutate(
-    born = str_remove_all(born, "born[[:space:]]"),
+    born = str_remove_all(born, "b.[[:space:]]"),
     birth = if_else(!is.na(born), born, birth)
   ) %>% 
   select(-born) %>% 
@@ -82,10 +82,3 @@ cleaned_data <-
 head(cleaned_data)
 write_csv(cleaned_data, "mini_essay_5/cleaned_data.csv")
 
-
-###Make a table
-cleaned_data %>% 
-  head() %>% 
-  kable(
-    col.names = c("Prime Minister", "Birth year", "Death year", "Age at death")
-  )

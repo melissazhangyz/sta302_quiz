@@ -1,9 +1,8 @@
 ---
-title: "Mini Essay 5"
+title: "Mini Essay 5: A visualized study of life span of prime ministers in Australia"
 author: Yingzhi Zhang
 date: today
 date-format: long
-abstract: "blablablablabla"
 format: pdf
 header-includes: 
 - \usepackage{float}
@@ -11,8 +10,8 @@ mainfont: Times New Roman
 sansfont: Times New Roman
 number-sections: true
 bibliography: references.bib
-toc: true
 ---
+
 ```{r}
 #| include: false
 #| warning: false
@@ -24,12 +23,34 @@ library(knitr)
 library(tidyverse)
 ```
 
+# Introduction 
+Australia has a parliamentary democratic government under its constitutional monarch system. The prime minister of Australia, set up by its constitution, is the head of the government. In the history of Australia, a total of 31 prime ministers have served for the nation since the establishment of the cabinet in 1901. The first prime minister was elected in March 1901, and the winner was Edmund Barton. The most recent prime minister is Anthony Albanese, who won the election in May 2022.
 
+In this research, we will study the life span of each prime minister. We can study the life span by discovering the birth year and death year of the prime ministers. Calculating the difference by subtracting birth from death year, we can generate a table to show the age at death of all prime ministers, except for those who are still alive. Furthermore, we can draw a graph to visualize our study.
+
+::: {#fig-planning layout-ncol=2 fig-pos=H}
+
+![Planning Table](plan of table.jpeg){#fig-table}
+
+![Planning graph](plan of graph.jpeg){#fig-graph}
+
+Plan of data
+:::
+
+# Data
+We can first gather the data from open resources on the internet. Wikipedia.com provides a comprehensive table regarding the informatioin of prime ministers of Australia. Using web scraping procedure, we can gather the data we need from ths website. Here we use the programming language R[@citeR], and we also use packages "tidyverse"[@tidyverse], "httr"[@httr], "janitor"[@janitor], "knitr"[@knitr]. In specifically, we will use "rvest"[@rvest] under the "tidyverse" package to process html websites. 
+
+We can gather the data needed using "rvest" and SelectorGadget tool. Using the read_html function under "rvest" package, we can read the information on the Wikipedia website of "List of Prime Minister of Australia". However, not all the information on the website are in need. Therefore, we can use SelectorGadget, a javascript tool, to select the table that contains the detailed information of all prime ministers. 
+
+After gathering the data we need, we can clean the data to focus on the birth year and death year of each prime ministers. We will first select the column we need, and then select the useful content in the column. We can mutate two new columns to store the data of birth year and death year. We would leave "NA" in the death year for the prime ministers who are still alive. We can further calculate the age at death be subtracting the two numbers and mutating a new columns with the name "Age at death". Using the kable() tool, we can generate a table which shows the cleaned version of data that we get from the previous steps.
 ```{r}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
+#| label: tbl-01
+#| tbl-cap: "Table of cleaned data regarding life span of Australian prime ministers"
+#| tbl-cap-location: top
 
 ###Read clean data and make a table
 cleaned_data <- read_csv("../mini_essay_5/cleaned_data.csv")
@@ -41,11 +62,19 @@ cleaned_data %>%
 
 ```
 
+For a better view of the data, we can use ggplot2() to get a figure of the life span of all Australian Prime Ministers. A bar chart is generated for better visualization effect. We can put the year on the x-axis and the name of prime ministers on the y-axis. To distinguish the prime ministers who are still alive, we can separate them using the color blue instead of red. As shown in @fig-01, each bar represents the life span of the prime minister.
+
 ```{r}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
+#| label: fig-01
+#| fig-cap: "Life span of Australian prime ministers"
+#| fig-cap-location: top
+#| fig-pos: H
+#| fig-width: 8
+#| fig-height: 6
 
 cleaned_data %>% 
   mutate(
@@ -58,10 +87,16 @@ cleaned_data %>%
     ) +
   geom_segment() +
   labs(
-    x = "Year of birth", y = "Prime minister", color = "PM is currently alive"
+    x = "Year", y = "Prime Minister", color = "PM is currently alive"
     ) +
   theme_minimal() +
   scale_color_brewer(palette = "Set1") +
   theme(legend.position = "bottom")
 ```
 
+# Discussion
+As presented in @fig-01, there are 8 prime ministers alive and 23 prime ministers who have passed away. Most prime ministers who are still alive were born after 1950, except John Howard and Paul Keating who were born in 1944 and 1939 respectively. While Anthony Albanese is the latest prime minister who is currently serving in the office, the previous prime minister, Scott Morrison is the yongest among all 31 prime ministers. Born in 1968, Mr. Morrison is only 56 years old this year. The most recent year in which a prime minister passed away is 2019. Bob Hawke died at the age of 90.
+
+The first prime minister, Edmund Barton, was born in 1849 and passed away in 1920. The fourth prime minister in the history of Australia, George Reid, is the one who was born in the earliest year. Mr. Reid was born in 1845 and died in 1918 at the age of 73. Among the prime ministers who have passed away, the most long-lived prime minister is Gough Whitlam who was born in 1916 and died in 2014 at the age of 98. On the other hand, Harold Holt is the prime minister who has the shortest life span. In general, the life span of Australian prime ministers is getting longer and longer among the years.
+
+# References

@@ -50,3 +50,19 @@ print("Average pages read by each person:")
 print(avg_pages_read)
 print("\nCorrelation between Rol and Mike's readings:")
 print(correlation_rol_mike)
+
+# Draw Graph
+library(tidyverse)
+
+# Assuming all_readings contains the simulated data from the previous step
+# all_readings <- bind_rows(independent_readings, couple_readings)
+
+# Visualize the reading data
+ggplot(all_readings, aes(x = Day, y = Pages, color = Person)) +
+  geom_line() + 
+  theme_minimal() +
+  labs(title = "Daily Pages Read by Each Undergraduate Over 100 Days",
+       x = "Day",
+       y = "Pages Read",
+       color = "Undergraduate") +
+  theme(legend.position = "bottom")

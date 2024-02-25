@@ -1,0 +1,38 @@
+---
+title: "Mini Essay 8: Exploratory data analysis (EDA) of Airbnb listings in Paris"
+author: Yingzhi Zhang
+date: today
+date-format: long
+format: pdf
+header-includes: 
+- \usepackage{float}
+mainfont: Times New Roman
+sansfont: Times New Roman
+number-sections: true
+---
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(arrow)
+library(janitor)
+library(knitr)
+library(lubridate)
+library(mice)
+library(modelsummary)
+library(naniar)
+library(tidyverse)
+```
+
+# Introduction 
+Paris.
+
+
+Airbnb.
+
+# Data
+## Data Gathering
+## Data Exploration

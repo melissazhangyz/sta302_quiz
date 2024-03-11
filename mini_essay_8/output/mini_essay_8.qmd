@@ -28,11 +28,20 @@ library(tidyverse)
 ```
 
 # Introduction 
-Paris.
+Paris and Airbnb
 
+What I do
 
-Airbnb.
-
-# Data
+# Data and Discussion
 ## Data Gathering
+import
+citation
 ## Data Exploration
+### Price
+### Review Score
+### Number of Listing
+
+# Conclusion
+relationship
+
+

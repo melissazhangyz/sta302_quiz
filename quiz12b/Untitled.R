@@ -1,4 +1,7 @@
 library(tidyverse)
+library(ggplot2)
+library(rstanarm)
+library(modelsummary)
 
 set.seed(123)
 
@@ -41,3 +44,20 @@ data %>%
 data %>%
   group_by(IncomeGroup, HighestEducation) %>%
   summarize(SupportYes = mean(Support == 1))
+
+data %>%
+  group_by(Gender, HighestEducation) %>%
+  summarize(SupportYes = mean(Support == 1))
+
+data %>%
+  group_by(AgeGroup, IncomeGroup) %>%
+  summarize(SupportYes = mean(Support == 1))
+
+chisq.test(table(data$Gender, data$Support))
+
+#model
+model1 <- glm(Support ~ AgeGroup + Gender + IncomeGroup + HighestEducation, data = data, family = binomial)
+
+#plot the graph
+modelplot(model1, conf_level = 0.9) +
+  labs(x = "90 per cent credibility interval")
